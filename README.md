@@ -2,63 +2,92 @@
 
 > **"Anonymous healthcare for the questions you're afraid to ask."**
 
-Medmask is a privacy-focused sexual-health platform designed to help people ask sensitive health questions and connect with healthcare professionals without unnecessary stigma, embarrassment, or fear of judgment.
+Medmask is a privacy-first sexual and personal health mobile application built with Expo and React Native. It enables patients to ask sensitive health questions anonymously, read evidence-based health guides, and receive verified clinical guidance from healthcare professionals in a calm, judgment-free experience.
 
 ---
 
-## 🌟 Hackathon Demo Flow (2-Minute Walkthrough)
+## Key Features
 
-1. **Launch Medmask** & complete the 3-step calm onboarding.
-2. **Arrive at Home**: Notice the privacy indicators, "Have a health question?" hero, and recent consultations.
-3. Tap **"Start a consultation"** (or use the primary CTA).
-4. **Step 1 (Category)**: Select **"STI / STD concerns"** (or any sensitive health category).
-5. **Step 2 (Concern)**: Enter a concern (or tap the demo prompt shortcut).
-6. **Step 3 (Symptoms)**: Select symptoms (e.g. *Itching*, *Burning sensation*).
-7. **Step 4 (Review)**: Review the inquiry and anonymous privacy notice.
-8. Tap **"Submit privately"** to transmit the consultation.
-9. **Success Screen**: View the timeline (*Submitted* → *Under review* → *Professional response*).
-10. **Prototype Provider Mode**: Tap the quick-action button on the success screen (or navigate to `Profile` → `Prototype Healthcare Professional Mode`).
-11. **Review & Respond**: View the anonymous consultation from the clinical triage queue, select a guidance template, and tap **"Send response"**.
-12. **View Result**: Switch to user mode to view the verified response from **"Verified Healthcare Professional"** with recommended next steps and safety disclaimers.
+### Role-Based Entry
+- **Onboarding & Role Login**: Clean 3-step onboarding leading into a role-based login screen where users enter either as a **Patient / User** (anonymous session) or as a **Healthcare Provider** (clinical intake portal).
+- **Session Switching**: Sign out cleanly from the **Profile** tab (Patient) or the **Provider Portal** header to switch roles at any time.
 
----
+### Patient Experience
+- **Home Dashboard**: Care overview card, live consultation & privacy status tiles, 4-tile Quick Actions dock (*Ask Now*, *Guides*, *Privacy*, *History*), and recent consultations.
+- **4-Step Anonymous Consultation Flow**:
+  1. **Category** — Select the concern category (*STI / STD concerns*, *Symptoms*, *Sexual health*, *Reproductive health*, *Testing*, *Medication questions*, or *Something else*).
+  2. **Concern** — Describe the concern privately in your own words.
+  3. **Symptoms** — Multi-select symptom chips with smart *"No symptoms"* handling.
+  4. **Review & Submit** — Confirm details with privacy reassurance and view a live consultation timeline (*Submitted* → *Under review* → *Professional response*).
+- **Health Library**: Filterable, evidence-based educational guides with direct links into private consultations.
+- **Privacy Center & Profile**: Transparent privacy pillars, discreet notification preference, and an **Appearance** selector supporting **Light**, **Dark**, and **System** themes.
 
-## 🎨 Design System & Philosophy
-
-- **Emotional Tone**: Safe, Private, Calm, Trustworthy, Modern, Human, Non-judgmental.
-- **Color Palette**:
-  - Primary: Deep navy (`#0B1528`)
-  - Accent / Secondary: Calming Teal (`#0D9488` / `#14B8A6`)
-  - Background: Soft off-white cool gray (`#F8FAFC`)
-  - Surfaces: Clean white (`#FFFFFF`) with subtle border elevation
-  - Semantic: Green (`#10B981`) for success, Amber (`#F59E0B`) for reviews
-- **Typography**: Hierarchy with clear display, headings, body, and captions.
-- **Privacy & Safety**:
-  - Strictly anonymous patient tickets (`#anon-XXXX`).
-  - No real-name or phone number requirements.
-  - Non-alarmist emergency notice disclaimers.
+### Healthcare Provider Portal
+- **Clinical Intake Queue**: Summary metrics (*Pending* / *Responded*) and filterable queue (*All*, *Needs Response*, *Responded*) displaying anonymous patient IDs (`Anonymous #XXXX`), categories, and reported symptoms.
+- **Clinical Response Workspace**: Multiline **Clinical Response** and **Recommended Next Step** inputs with quick clinical guidance templates, keyboard avoidance, native iOS **Done** accessory bar, and inline **Done** controls.
 
 ---
 
-## 📱 Architecture & Tech Stack
+## Design System & UI
 
-- **Framework**: Expo SDK 57 (React Native 0.86, React 19)
-- **Routing**: Expo Router (file-based routing with Stack & Bottom Tabs)
-- **Language**: TypeScript (strict mode enabled)
-- **Icons**: `@expo/vector-icons` (Ionicons)
-- **Haptics**: `expo-haptics` for subtle tactile feedback
-- **State Management**: `ConsultationContext` with live state mutation between patient and provider views
+- **Visual Direction**: Apple-inspired minimalist healthcare UI with soft neumorphic elevation, frosted glass surfaces (`expo-blur`), a floating bottom tab bar with a raised center `+` consultation button, and custom 3D-styled tactile icon tiles.
+- **Typography**: **Urbanist** (`@expo-google-fonts/urbanist`) across all weights (`400`–`800`).
+- **Light & Dark Themes**:
+  - **Light Mode**: Plain crisp background (`#F6F8FA`), elevated white cards (`#FFFFFF`), deep slate text (`#1B2A3D`), and medical teal accent (`#12B5A6`).
+  - **Dark Mode**: Deep obsidian-slate background (`#0B1218`), dark slate surfaces (`#131F2A`), high-contrast off-white text (`#F1F6FA`), and luminous teal accent (`#18C4B4` / `#2DD4BF`).
+- **Custom Medmask Alerts & Motion**: Branded frosted-glass `AlertProvider` modal dialogs (replacing native `Alert.alert`) and subtle, zero-overshoot `react-native-reanimated` transitions.
 
 ---
 
-## 🚀 Running Locally
+## Tech Stack & Project Structure
+
+- **Framework**: Expo SDK 58 (React Native `0.88`, React `19.3`)
+- **Routing**: Expo Router (`src/app/`) with typed routes
+- **Language**: TypeScript (strict mode)
+- **Styling & UI**: `expo-blur`, `react-native-reanimated`, `@expo-google-fonts/urbanist`, `@expo/vector-icons`, `expo-haptics`
+- **State & Context**:
+  - `src/context/ConsultationContext.tsx` — Role state (`user` / `provider`), onboarding, and live consultations
+  - `src/context/ThemeContext.tsx` — Light, Dark, and System theme switching
+  - `src/context/AlertContext.tsx` — Custom branded alert modal system
+
+```text
+src/
+├── app/
+│   ├── _layout.tsx              # Root stack, Urbanist font loading, providers
+│   ├── index.tsx                # Entry router (onboarding -> login -> role home)
+│   ├── onboarding.tsx           # 3-step onboarding flow
+│   ├── login.tsx                # Patient vs Healthcare Provider entry
+│   ├── privacy.tsx              # Privacy Center
+│   ├── (tabs)/                  # Patient tab navigator + floating glass tab bar
+│   │   ├── _layout.tsx
+│   │   ├── index.tsx            # Home Dashboard
+│   │   ├── consult.tsx          # Consultations list & filters
+│   │   ├── learn.tsx            # Health Library
+│   │   └── profile.tsx          # Profile, Theme switcher, Sign Out
+│   ├── consultation/            # New consultation wizard, success timeline, detail view
+│   ├── article/[id].tsx         # Health guide reader
+│   └── provider/                # Healthcare Provider intake queue & response view
+├── components/ui/               # GlassCard, Soft3DIcon, Motion, Buttons, MedmaskLogo, etc.
+├── constants/theme.ts           # LightColors, DarkColors, Urbanist Typography, Spacing, Shadows
+├── context/                     # ConsultationContext, ThemeContext, AlertContext
+└── data/                        # Mock articles, consultations, and provider data
+```
+
+---
+
+## Running Locally
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start the Expo dev server
 npx expo start
+
+# Run on a specific platform
+npm run ios
+npm run android
+npm run web
 
 # Typecheck
 npx tsc --noEmit
