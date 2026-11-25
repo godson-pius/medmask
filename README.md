@@ -26,6 +26,9 @@ Medmask is a privacy-first sexual and personal health mobile application built w
 - **Clinical Intake Queue**: Summary metrics (*Pending* / *Responded*) and filterable queue (*All*, *Needs Response*, *Responded*) displaying anonymous patient IDs (`Anonymous #XXXX`), categories, and reported symptoms.
 - **Clinical Response Workspace**: Multiline **Clinical Response** and **Recommended Next Step** inputs with quick clinical guidance templates, keyboard avoidance, native iOS **Done** accessory bar, and inline **Done** controls.
 
+### Awareness Website (`web/`)
+- **Next.js 16 Spatial Web Experience**: Full-viewport, non-scrolling desktop awareness UI with smooth in-place section transitions (**Overview**, **Privacy**, **Guides**, **Clinicians**), responsive mobile/tablet layout, Light & Dark theme toggle, self-hosted **Urbanist** font, custom Medmask favicons, and full SEO (`robots.txt`, `sitemap.xml`, `manifest.webmanifest`, Open Graph, JSON-LD). See [web/README.md](web/README.md) for details.
+
 ---
 
 ## Design System & UI
